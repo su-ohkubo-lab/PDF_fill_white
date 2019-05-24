@@ -44,8 +44,9 @@ if __name__ == "__main__":
     pages = fitz.open(filename)
     for pagenum in range(pages.pageCount):
         # 奇数ページだけ、などは以下のコメントを参考に適宜処理を追加する
+        flag = 0
         #if (pagenum%2) != 0:
-        #    continue
+        #    flag = 1
         page = pages.loadPage(pagenum)
         rgba = page.getPixmap(matrix=mat)
         rgba = Image.frombytes("RGBA", [rgba.width, rgba.height], rgba.samples)
@@ -53,8 +54,9 @@ if __name__ == "__main__":
         rgb = Image.new('RGB', rgba.size, (255, 255, 255))
         rgb.paste(rgba, mask=rgba.split()[3])
         draw = ImageDraw.Draw(rgb)
-        for rect in rects:
-            draw.rectangle((rect[0]*zoom, rect[1]*zoom, rect[2]*zoom, rect[3]*zoom), fill=color)
+        if flag == 0:
+            for rect in rects:
+                draw.rectangle((rect[0]*zoom, rect[1]*zoom, rect[2]*zoom, rect[3]*zoom), fill=color)
         # PIL形式をPDF形式に変換。ページごとにバッファに積み上げていく。
         buf = io.BytesIO()
         rgb.convert("RGB").save(buf, format="pdf")
