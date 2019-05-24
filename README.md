@@ -16,6 +16,7 @@
 [[左上X座標, 左上Y座標, 右下X座標, 右下Y座標], [左上X座標, 左上Y座標, 右下X座標, 右下Y座標], ...]
 ```
 のように複数箇所指定可能。
+
 2. 以下で白塗り。
 ```shell
 $ python3 fill_white.py TargetFile.pdf
